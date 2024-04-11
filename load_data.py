@@ -7,5 +7,6 @@ conn = sqlite3.connect("youtube.db")
 df.to_sql('youtubers', conn, if_exists='replace', index=False)
 
 
+
 conn.commit()
 conn.close()
