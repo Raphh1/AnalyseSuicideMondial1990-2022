@@ -99,3 +99,28 @@ plt.show()
 
 
 suicide_by_generation = df.dropna().groupby(['Generation'])['SuicideCount'].sum()
+labels = ['Baby Boomers', 'Alpha', 'X', 'Z', 'Millenials','Silent']
+colors = ['#FF0000', '#004DFF', '#26FFB3', '#3D465B', '#FA0094','#004C31']
+plt.figure(figsize=(8, 8))  
+plt.pie(suicide_by_generation, labels=labels, colors=colors, autopct='%1.1f%%', startangle=140)
+plt.title('Taux de suicide par generation')
+plt.axis('equal') 
+plt.legend(labels, loc='upper right')
+
+plt.show()
+
+
+suicide_by_inflation = chart.dropna().groupby(['InflationRate','RegionCode'])['SuicideCount'].sum()
+
+northamerica = chart['RegionCode'] == 'NAC'
+plt.figure(figsize=(10, 6))  
+plt.plot(suicide_by_inflation.index, suicide_by_inflation.values, marker='o', linestyle='-', color='y', label='Amerique du nord') 
+plt.plot(suicide_by_inflation.index, suicide_by_inflation.values, marker='o', linestyle='-', color='y', label='Amerique du nord') 
+plt.title('Taux de suicides annuels en Europe')
+plt.xlabel('Year')
+plt.ylabel('Suicide Count')
+plt.grid(True)  
+plt.xticks(rotation=45)  
+plt.tight_layout()  
+plt.legend()  
+plt.show()
