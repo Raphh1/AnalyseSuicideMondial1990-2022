@@ -7,5 +7,6 @@ conn = sqlite3.connect("suicide.db")
 df.to_sql('suicide', conn, if_exists='replace', index=False)
 
 
+
 conn.commit()
 conn.close()
