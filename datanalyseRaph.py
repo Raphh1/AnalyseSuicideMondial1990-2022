@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import sqlite3
-import plotly.express as px
 
 df = pd.read_csv("SuicideMonde1990-2022.csv", encoding='utf-8')
 conn = sqlite3.connect("suicide.db")
