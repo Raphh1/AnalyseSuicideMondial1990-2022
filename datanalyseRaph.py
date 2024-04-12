@@ -109,18 +109,3 @@ plt.legend(labels, loc='upper right')
 
 plt.show()
 
-
-suicide_by_inflation = chart.dropna().groupby(['InflationRate','RegionCode'])['SuicideCount'].sum()
-
-northamerica = chart['RegionCode'] == 'NAC'
-plt.figure(figsize=(10, 6))  
-plt.plot(suicide_by_inflation.index, suicide_by_inflation.values, marker='o', linestyle='-', color='y', label='Amerique du nord') 
-plt.plot(suicide_by_inflation.index, suicide_by_inflation.values, marker='o', linestyle='-', color='y', label='Amerique du nord') 
-plt.title('Taux de suicides annuels en Europe')
-plt.xlabel('Year')
-plt.ylabel('Suicide Count')
-plt.grid(True)  
-plt.xticks(rotation=45)  
-plt.tight_layout()  
-plt.legend()  
-plt.show()
