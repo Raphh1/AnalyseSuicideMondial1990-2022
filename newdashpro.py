@@ -3,7 +3,15 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 st.write("""
-         # My first app""")
+         # Article sur le suicide dans le monde
+
+Dans cet article, nous entreprenons une analyse approfondie des tendances du suicide à travers les continents et les pays, en utilisant des données clés telles que les tranches d'âge, les générations, le taux d'inflation et le ratio d'emploi. Bien que ces données ne soient pas spécifiquement liées au suicide, elles peuvent fournir des indications importantes sur les facteurs socio-économiques qui influent sur les taux de suicide.
+
+En examinant ces données sur plusieurs années et dans différentes régions du monde, nous chercherons à identifier des tendances et des corrélations significatives. Par exemple, nous pourrions explorer comment les variations du taux d'emploi ou du taux d'inflation ont influencé les taux de suicide dans différents groupes d'âge et de générations.
+
+Notre objectif est de fournir des insights précieux sur les déterminants socio-économiques du suicide, en mettant en lumière les disparités régionales et en identifiant les populations les plus vulnérables. En comprenant ces facteurs, nous pourrons formuler des recommandations politiques et des stratégies de prévention plus efficaces pour lutter contre le suicide à l'échelle mondiale.
+
+Dans les sections suivantes de cet article, nous explorerons les données disponibles sur le suicide dans chaque continent, en mettant en évidence les tendances observées et en discutant de leurs implications pour la santé publique et les politiques de prévention du suicide. Enfin, nous conclurons en proposant des pistes de recherche futures et des actions potentielles pour adresser ce problème urgent de manière efficace et holistique.""")
 
 chart = pd.read_csv("SuicideMonde1990-2022.csv") 
 start_date = st.slider("Choisissez l'année de début", min_value=2015, max_value=2022, value=2015)
@@ -76,3 +84,13 @@ fig.tight_layout()
 
 st.pyplot(fig)
 
+
+suicide_by_year = chart.groupby('AgeGroup')['SuicideCount'].sum()
+
+figu = plt.figure()
+suicide_by_year.plot(kind='bar', figsize=(10,5), color='skyblue')
+plt.title("Tendances des taux de suicide au fil du temps")
+plt.ylabel("Nombre de suicides")
+plt.xlabel('Année')
+
+st.pyplot(figu)
