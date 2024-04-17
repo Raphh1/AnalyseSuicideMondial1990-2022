@@ -92,34 +92,31 @@ ax.legend()
 
 st.pyplot(fig)
 
-st.markdown("[Cliquez ici pour voir les détails de l'analyse de la région la plus basse et la plus haute en taux de suicide](comparatif%20des%20continents)")
 
+# with open("countries.geo.json") as response:
+#     geo = json.load(response)
 
-
-with open("countries.geo.json") as response:
-    geo = json.load(response)
-
-fig = go.Figure(
-    go.Choroplethmapbox(
-        geojson=geo,
-        locations=df['CountryCode'],
-        featureidkey="id",
-        z=df.groupby(['CountryCode'])['SuicideCount'].sum(),
-        colorscale="sunsetdark",
-        # zmin=0,
-        # zmax=500000,
-        marker_opacity=0.5,
-        marker_line_width=0,
-    )
-)
-fig.update_layout(
-    mapbox_style="carto-positron",
-    mapbox_zoom=6.6,
-    mapbox_center={"lat": 46.8, "lon": 8.2},
-    width=800,
-    height=600,
-)
-fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
-st.plotly_chart(fig)
+# fig = go.Figure(
+#     go.Choroplethmapbox(
+#         geojson=geo,
+#         locations=df['CountryCode'],
+#         featureidkey="id",
+#         z=df.groupby(['CountryCode'])['SuicideCount'].sum(),
+#         colorscale="sunsetdark",
+#         # zmin=0,
+#         # zmax=500000,
+#         marker_opacity=0.5,
+#         marker_line_width=0,
+#     )
+# )
+# fig.update_layout(
+#     mapbox_style="carto-positron",
+#     mapbox_zoom=6.6,
+#     mapbox_center={"lat": 46.8, "lon": 8.2},
+#     width=800,
+#     height=600,
+# )
+# fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
+# st.plotly_chart(fig)
 
 #RegionCode,RegionName,CountryCode,CountryName,Year,Sex,AgeGroup,Generation,SuicideCount,CauseSpecificDeathPercentage,DeathRatePer100K,Population,GDP,GDPPerCapita,GrossNationalIncome,GNIPerCapita,InflationRate,EmploymentPopulationRatio
