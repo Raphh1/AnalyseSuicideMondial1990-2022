@@ -29,6 +29,24 @@ plt.legend(title='Génération', loc='upper right')
 st.pyplot(fig)
 
 st.markdown("## Les Baby Boomers")
+
+df_filtered = df[(df['Year'] >= 1990) & (df['Year'] <= 2022) & (df['Generation'] == 'Baby Boomers')]
+
+
+st.title("Taux de suicides pour la génération Baby Boomers")
+fig, ax = plt.subplots(figsize=(10, 6))
+for age_group, data in df_filtered.groupby('AgeGroup'):
+    data.groupby('Year')['SuicideCount'].sum().plot(kind='line', ax=ax, label=age_group)
+
+
+plt.title("Taux de suicide pour la génération Baby Boomers par tranche d'âge")
+plt.xlabel('Année')
+plt.ylabel('Nombre de suicides')
+plt.legend(title='Tranche d\'âge', loc='upper right')
+
+
+st.pyplot(fig)
+
 st.write(""" Les Baby Boomers, nés entre 1946 et 1964, ont souvent été confrontés à des périodes de changement social rapide et de turbulences économiques. Leur génération a été témoin de transformations majeures telles que l'émergence de la contre-culture des années 1960 et les défis économiques des années 1970 et 1980. Ces facteurs peuvent avoir contribué à des taux de suicide relativement élevés au sein de cette cohorte.""")
 st.markdown("## La generation X")
 
