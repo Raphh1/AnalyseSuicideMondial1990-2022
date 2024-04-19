@@ -9,31 +9,38 @@ df = pd.read_csv("SuicideMonde1990-2022.csv")
 suicide_rate_by_country = df.groupby('CountryName')['SuicideCount'].mean()
 
 
-country_with_highest_rate = suicide_rate_by_country.idxmax()
-highest_rate = suicide_rate_by_country.max()
+st.sidebar.title("Sélection de la plage de dates")
+start_date = st.sidebar.slider("Date de début", min_value=df['Year'].min(), max_value=df['Year'].max())
+end_date = st.sidebar.slider("Date de fin", min_value=df['Year'].min(), max_value=df['Year'].max(), value=df['Year'].max())
 
 
-country_with_lowest_rate = suicide_rate_by_country.idxmin()
-lowest_rate = suicide_rate_by_country.min()
+time_filtered = df[(df['Year'] >= start_date) & (df['Year'] <= end_date)]
+europe = time_filtered[time_filtered['CountryName'] == 'Russian Federation']
+annual_suicide_counts_europe = europe.groupby('Year')['SuicideCount'].sum()
 
 
-highest_country_data = df[df['CountryName'] == country_with_highest_rate]
-lowest_country_data = df[df['CountryName'] == country_with_lowest_rate]
+fig, ax = plt.subplots(figsize=(10, 6))
+ax.plot(annual_suicide_counts_europe.index, annual_suicide_counts_europe.values, marker='o', linestyle='-', color='g', label='Europe')
+ax.set_title('Taux de suicides annuels dans la federation russe')
+ax.set_xlabel('Année')
+ax.set_ylabel('Nombre de suicides')
+ax.grid(True)
+ax.legend()
 
 
-fig, axes = plt.subplots(2, 1, figsize=(10, 12))
+time_filtered = df[(df['Year'] >= start_date) & (df['Year'] <= end_date)]
+europe = time_filtered[time_filtered['CountryName'] == 'Antigua and Barbuda']
+annual_suicide_counts_europe = europe.groupby('Year')['SuicideCount'].sum()
 
 
-axes[0].plot(highest_country_data['Year'], highest_country_data['SuicideCount'], marker='o', linestyle='-', color='r')
-axes[0].set_title(f"Taux de suicides - {country_with_highest_rate}")
-axes[0].set_xlabel("Année")
-axes[0].set_ylabel("Nombre de suicides")
+fig2, ax = plt.subplots(figsize=(10, 6))
+ax.plot(annual_suicide_counts_europe.index, annual_suicide_counts_europe.values, marker='o', linestyle='-', color='g', label='Europe')
+ax.set_title('Taux de suicides annuels à Antigua et Barbuda')
+ax.set_xlabel('Année')
+ax.set_ylabel('Nombre de suicides')
+ax.grid(True)
+ax.legend()
 
-
-axes[1].plot(lowest_country_data['Year'], lowest_country_data['SuicideCount'], marker='o', linestyle='-', color='b')
-axes[1].set_title(f"Taux de suicides - {country_with_lowest_rate}")
-axes[1].set_xlabel("Année")
-axes[1].set_ylabel("Nombre de suicides")
 
 
 plt.tight_layout()
@@ -50,6 +57,8 @@ De plus, la consommation élevée d'alcool en Russie est un problème de santé 
 
 Sur le plan culturel, il existe une stigmatisation persistante associée à la santé mentale en Russie, ce qui peut dissuader les personnes en détresse de rechercher de l'aide. Les attitudes sociales et familiales autour du suicide peuvent également influencer les comportements, certains percevant encore le suicide comme une issue acceptable face à des difficultés insurmontables""")
 
+st.pyplot(fig)
+
 st.markdown("## Antigua et Barbuda")
 st.write("""Antigua-et-Barbuda, un petit État insulaire des Caraïbes, affiche l'un des taux de suicide les plus bas au monde. Plusieurs facteurs peuvent contribuer à ce faible taux de suicide.
 
@@ -58,5 +67,5 @@ Tout d'abord, les conditions socio-économiques favorables, telles que le faible
 De plus, les fortes communautés et les liens sociaux étroits caractéristiques des petites îles des Caraïbes peuvent offrir un soutien social et émotionnel important aux individus en période de crise ou de difficulté. Le fort sentiment d'appartenance à la communauté et le soutien familial peuvent aider à atténuer les sentiments d'isolement et de désespoir.
 
 Enfin, les attitudes culturelles et sociales favorables à la santé mentale, ainsi que la sensibilisation accrue aux problèmes de santé mentale et au suicide, peuvent encourager les individus à rechercher de l'aide en cas de besoin et à bénéficier de services de soutien et de traitement appropriés.""")
-st.pyplot(fig)
 
+st.pyplot(fig2)
