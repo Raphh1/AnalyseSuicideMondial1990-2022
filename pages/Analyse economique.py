@@ -4,6 +4,7 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 df = pd.read_csv("SuicideMonde1990-2022.csv")
 
@@ -401,3 +402,59 @@ ax4.legend(loc='upper right')
 fig3.tight_layout()  
 
 st.pyplot(fig3)
+
+
+
+
+
+cat_features  = ['RegionCode','RegionName','CountryCode', 'CountryName','Sex','AgeGroup','Generation']
+df.drop(columns=cat_features).corr()
+
+fig = plt.figure(figsize=(12, 8))
+sns.heatmap(df.drop(columns=cat_features).corr(), annot=True, cmap='coolwarm', fmt='.2f')
+plt.title('Correlation Heatmap')
+st.pyplot(fig)
+
+
+# Numeric columns
+numeric_columns = ['DeathRatePer100K', 'GDP', 'GDPPerCapita', 'GrossNationalIncome', 'GNIPerCapita', 'InflationRate',
+                  'EmploymentPopulationRatio']
+
+# Correlation matrix
+correlation_matrix = df[numeric_columns].corr()
+
+fig = plt.figure(figsize=(10, 8))  # Adjust figure size
+sns.heatmap(
+    correlation_matrix, 
+    annot=True, 
+    cmap='coolwarm', 
+    linewidths=0.5,
+    fmt=".2f", 
+    center=0, 
+    square=True, 
+)
+plt.title('Correlation Matrix', fontsize=16)
+plt.xticks(rotation=45, ha='right')
+plt.tight_layout()
+
+st.pyplot(fig)
+
+# Analyze correlation with suicides, excluding self-correlation
+correlation_with_suicides = correlation_matrix['DeathRatePer100K'].sort_values(ascending=False)[1:]
+
+# Barplot for correlation with suicide numbers
+fig = plt.figure(figsize=(8, 6))  # Adjust figure size
+sns.barplot(
+    x=correlation_with_suicides.values, 
+    y=correlation_with_suicides.index, 
+    palette='viridis'
+)
+plt.title('Correlation with Suicide Numbers (excluding self-correlation)', fontsize=16)
+plt.xlabel('Correlation Coefficient', fontsize=14)
+plt.ylabel('Variables', fontsize=14)
+plt.grid(axis='x', linestyle='--', alpha=0.7)  # Add grid lines for better readability
+plt.xticks(fontsize=12)
+plt.yticks(fontsize=12)
+plt.tight_layout()
+
+st.pyplot(fig)

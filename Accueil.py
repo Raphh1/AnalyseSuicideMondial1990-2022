@@ -20,16 +20,35 @@ st.write("""
         L'un des aspects les plus significatifs des tendances du suicide est la disparité entre les sexes. Les hommes ont tendance à avoir des taux de suicide plus élevés que les femmes dans de nombreux pays du monde. Cette disparité peut être influencée par une variété de facteurs, y compris les différences dans les méthodes de suicide choisies et les normes de genre qui affectent la manière dont les hommes et les femmes expriment leur détresse émotionnelle.
          """)
 
-suicide_by_gender = df.dropna().groupby(['Sex'])['SuicideCount'].sum()
 
-labels = ['Femme', 'Homme']
-colors = ['#FF0000', '#004DFF']
+gender_sum = df.dropna().groupby(['Sex'])['SuicideCount'].sum()
 
-fig, ax = plt.subplots(figsize=(8, 8))  
-ax.pie(suicide_by_gender, labels=labels, colors=colors, autopct='%1.1f%%', startangle=140)
-ax.set_title('Taux de suicide par sexe') 
+fig, ax = plt.subplots(figsize=(5, 5))
+
+colors = ['#ff9999', '#66b3ff']
+labels = ['Female', 'Male']
+
+wedgeprops = dict(width=0.6, edgecolor='w', linewidth=2)
+ax.pie(
+    gender_sum,
+    labels=labels,
+    autopct='%.1f%%',
+    colors=colors,
+    startangle=90,
+    counterclock=False,
+    wedgeprops=wedgeprops,
+    shadow=True,
+)
+
+ax.set_title(
+    'Suicide by Gender',
+    fontdict={'fontsize': 16, 'fontweight': 'bold', 'color': '#333333'},
+)
+
+ax.axis('off') 
 
 st.pyplot(fig)
+
 
 st.write(""" 
          ## Taux de suicides dans le monde
@@ -55,9 +74,8 @@ st.write("""
 st.title("Taux de suicides annuels par région")
 
 
-st.sidebar.title("Sélection de la plage de dates taux de suicides par regions")
-start_date = st.sidebar.slider("Date de début", min_value=df['Year'].min(), max_value=df['Year'].max())
-end_date = st.sidebar.slider("Date de fin", min_value=df['Year'].min(), max_value=df['Year'].max(), value=df['Year'].max())
+start_date = df['Year'].min()
+end_date = df['Year'].max()
 
 
 time_filtered = df[(df['Year'] >= start_date) & (df['Year'] <= end_date)]
@@ -120,3 +138,17 @@ st.pyplot(fig)
 # st.plotly_chart(fig)
 
 #RegionCode,RegionName,CountryCode,CountryName,Year,Sex,AgeGroup,Generation,SuicideCount,CauseSpecificDeathPercentage,DeathRatePer100K,Population,GDP,GDPPerCapita,GrossNationalIncome,GNIPerCapita,InflationRate,EmploymentPopulationRatio
+
+import plotly.express as px
+
+fig = px.choropleth(df,
+                    locations='CountryName', locationmode='country names',
+                    color = 'SuicideCount',hover_name="CountryName",
+                    animation_frame="Year",
+                    color_continuous_scale='Viridis_r')
+fig.update_layout(margin={'r':0,'t':0,'l':0,'b':0}, coloraxis_colorbar=dict(
+    title = 'Suicide Count',
+    ticks = 'outside',
+    tickvals = [5000,10000,15000,20000,30000, 40000, 50000],
+    dtick = 12))              
+st.plotly_chart(fig)
