@@ -5,45 +5,38 @@ import matplotlib.pyplot as plt
 
 df = pd.read_csv("SuicideMonde1990-2022.csv")
 
-
-suicide_rate_by_country = df.groupby('CountryName')['SuicideCount'].mean()
-
-
 st.sidebar.title("Sélection de la plage de dates")
 start_date = st.sidebar.slider("Date de début", min_value=df['Year'].min(), max_value=df['Year'].max())
 end_date = st.sidebar.slider("Date de fin", min_value=df['Year'].min(), max_value=df['Year'].max(), value=df['Year'].max())
 
 
 time_filtered = df[(df['Year'] >= start_date) & (df['Year'] <= end_date)]
-europe = time_filtered[time_filtered['CountryName'] == 'Russian Federation']
-annual_suicide_counts_europe = europe.groupby('Year')['SuicideCount'].sum()
+
+
+russia_data = time_filtered[time_filtered['CountryName'] == 'Russian Federation']
+suicide_counts_russia = russia_data.groupby('Year')['SuicideCount'].sum()
+
+
+antigua_barbuda_data = time_filtered[time_filtered['CountryName'] == 'Antigua and Barbuda']
+suicide_counts_antigua_barbuda = antigua_barbuda_data.groupby('Year')['SuicideCount'].sum()
 
 
 fig, ax = plt.subplots(figsize=(10, 6))
-ax.plot(annual_suicide_counts_europe.index, annual_suicide_counts_europe.values, marker='o', linestyle='-', color='g', label='Europe')
-ax.set_title('Taux de suicides annuels dans la federation russe')
+ax.bar(suicide_counts_russia.index, suicide_counts_russia.values, color='g', label='Russian Federation')
+ax.set_title('Taux de suicides annuels dans la Fédération de Russie')
 ax.set_xlabel('Année')
 ax.set_ylabel('Nombre de suicides')
 ax.grid(True)
 ax.legend()
 
 
-time_filtered = df[(df['Year'] >= start_date) & (df['Year'] <= end_date)]
-europe = time_filtered[time_filtered['CountryName'] == 'Antigua and Barbuda']
-annual_suicide_counts_europe = europe.groupby('Year')['SuicideCount'].sum()
-
-
-fig2, ax = plt.subplots(figsize=(10, 6))
-ax.plot(annual_suicide_counts_europe.index, annual_suicide_counts_europe.values, marker='o', linestyle='-', color='g', label='Europe')
-ax.set_title('Taux de suicides annuels à Antigua et Barbuda')
-ax.set_xlabel('Année')
-ax.set_ylabel('Nombre de suicides')
-ax.grid(True)
-ax.legend()
-
-
-
-plt.tight_layout()
+fig2, ax2 = plt.subplots(figsize=(10, 6))
+ax2.bar(suicide_counts_antigua_barbuda.index, suicide_counts_antigua_barbuda.values, color='b', label='Antigua and Barbuda')
+ax2.set_title('Taux de suicides annuels à Antigua et Barbuda')
+ax2.set_xlabel('Année')
+ax2.set_ylabel('Nombre de suicides')
+ax2.grid(True)
+ax2.legend()
 
 
 st.title("Analyse des taux de suicides par pays dans le monde")

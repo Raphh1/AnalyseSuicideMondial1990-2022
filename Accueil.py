@@ -1,9 +1,7 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-import plotly.graph_objects as go
-import json
-
+import seaborn as sns
  
 st.write("""
          # Article sur le suicide dans le monde
@@ -111,16 +109,59 @@ st.pyplot(fig)
 
 #RegionCode,RegionName,CountryCode,CountryName,Year,Sex,AgeGroup,Generation,SuicideCount,CauseSpecificDeathPercentage,DeathRatePer100K,Population,GDP,GDPPerCapita,GrossNationalIncome,GNIPerCapita,InflationRate,EmploymentPopulationRatio
 
-import plotly.express as px
+# import plotly.express as px
 
-fig = px.choropleth(df,
-                    locations='CountryName', locationmode='country names',
-                    color = 'SuicideCount',hover_name="CountryName",
-                    animation_frame="Year",
-                    color_continuous_scale='Viridis_r')
-fig.update_layout(margin={'r':0,'t':0,'l':0,'b':0}, coloraxis_colorbar=dict(
-    title = 'Suicide Count',
-    ticks = 'outside',
-    tickvals = [5000,10000,15000,20000,30000, 40000, 50000],
-    dtick = 12))              
-st.plotly_chart(fig)
+# fig = px.choropleth(df,
+#                     locations='CountryName', locationmode='country names',
+#                     color = 'SuicideCount',hover_name="CountryName",
+#                     animation_frame="Year",
+#                     color_continuous_scale='Viridis_r')
+# fig.update_layout(margin={'r':0,'t':0,'l':0,'b':0}, coloraxis_colorbar=dict(
+#     title = 'Suicide Count',
+#     ticks = 'outside',
+#     tickvals = [5000,10000,15000,20000,30000, 40000, 50000],
+#     dtick = 12))              
+# st.plotly_chart(fig)
+
+
+st.markdown("## Heatmap de correlation du suicide")
+st.write("""
+         Coefficient proche de 1 : Il indique une corrélation positive forte, ce qui signifie que les variables évoluent généralement dans la même direction. Par exemple, si une variable augmente, l'autre a tendance à augmenter également.
+
+         Coefficient proche de -1 : Il indique une corrélation négative forte, ce qui signifie que les variables évoluent généralement dans des directions opposées. Si une variable augmente, l'autre a tendance à diminuer, et vice versa.
+
+         Coefficient proche de 0 : Il indique une faible corrélation linéaire entre les variables. Cela signifie que les variables ne sont pas linéairement liées les unes aux autres.""")
+
+cat_features  = ['RegionCode','RegionName','CountryCode', 'CountryName','Sex','AgeGroup','Generation']
+df.drop(columns=cat_features).corr()
+
+fig = plt.figure(figsize=(12, 8))
+sns.heatmap(df.drop(columns=cat_features).corr(), annot=True, cmap='coolwarm', fmt='.2f')
+plt.title('Heatmap de correlation')
+st.pyplot(fig)
+
+#
+numeric_columns = ['DeathRatePer100K', 'GDP', 'GDPPerCapita', 'GrossNationalIncome', 'GNIPerCapita', 'InflationRate',
+                  'EmploymentPopulationRatio']
+
+
+max_year_suicides = df.groupby('Year')['SuicideCount'].sum().idxmax()
+max_year_suicide_count = df.groupby('Year')['SuicideCount'].sum().max()
+
+
+min_year_suicides = df.groupby('Year')['SuicideCount'].sum().idxmin()
+min_year_suicide_count = df.groupby('Year')['SuicideCount'].sum().min()
+
+
+max_generation_suicides = df.groupby('Generation')['SuicideCount'].sum().idxmax()
+max_generation_suicide_count = df.groupby('Generation')['SuicideCount'].sum().max()
+
+
+total_suicides_1990_2022 = df['SuicideCount'].sum()
+
+st.title("Les taux les plus importants du suicide dans le monde")
+
+st.markdown(f"### **Année avec le plus haut taux de suicides :** {max_year_suicides} avec un total de {max_year_suicide_count} suicides.")
+st.markdown(f"### **Année avec le plus bas taux de suicides :** {min_year_suicides} avec un total de {min_year_suicide_count} suicides.")
+st.markdown(f"### **Génération avec le plus haut taux de suicides :** {max_generation_suicides} avec un total de {max_generation_suicide_count} suicides.")
+st.markdown(f"### **Nombre total de suicides de 1990 à 2022 :** {total_suicides_1990_2022}")

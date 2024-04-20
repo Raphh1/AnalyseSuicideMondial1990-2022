@@ -41,7 +41,7 @@ annual_suicide_counts_centralamericasouth = centralamericasouth.groupby('Year')[
 
 
 fig, ax = plt.subplots(figsize=(10, 6))
-ax.plot(annual_suicide_counts_centralamericasouth.index, annual_suicide_counts_centralamericasouth.values, marker='o', linestyle='-', color='g', label='Amerique centrale et amerique du sud')
+ax.plot(annual_suicide_counts_centralamericasouth.index, annual_suicide_counts_centralamericasouth.values, marker='o', linestyle='-', color='y', label='Amerique centrale et amerique du sud')
 ax.set_title('Taux de suicides annuels en Amerique centrale et amerique du sud')
 ax.set_xlabel('Année')
 ax.set_ylabel('Nombre de suicides')

@@ -1,0 +1,34 @@
+# Nom du Projet
+
+Suicide dans le monde entre 1990 et 2022
+
+## Marche à suivre
+
+Nous avons d'abord bien téléchargé la dataset qui était un fichier .csv
+
+Nous avons installé les librairies necessaires afin de pouvoir faire des analyses et avoir un affichage graphique agréable
+installation des librairies suivante :
+- matplotlib
+- matplotlib.pyplot
+- seaborn
+- pandas
+installation d'une librairie spéciale pour faire un dashboard interactif en web pour les analyses de données nommée streamlit
+
+Création des graphiques à l'aide de matplotlib adaptée en streamlit pour l'affichage sur le site
+
+
+## Technologies Utilisées
+
+- Langages de Programmation : Python
+- Frameworks (Python) : Streamlit
+- Base de Données : fichier csv adapté en base de donnée SQLite (totalement inutile au final mais quand meme fait)
+
+## Installation et Utilisation
+
+1. Cloner le dépôt GitHub du projet.
+2. Installer les librairies necessaires en exécutant `pip install` dans le terminal du projet.
+3. Installer streamlit pour pouvoir executer le projet.
+4. Lancer le dashboard web en executant la commande `streamlit run Accueil.py`.
+5. Il ne reste plus qu'a naviguer sur le site.
+
+
