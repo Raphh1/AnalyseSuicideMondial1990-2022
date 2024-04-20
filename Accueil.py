@@ -107,23 +107,6 @@ ax.legend()
 
 st.pyplot(fig)
 
-#RegionCode,RegionName,CountryCode,CountryName,Year,Sex,AgeGroup,Generation,SuicideCount,CauseSpecificDeathPercentage,DeathRatePer100K,Population,GDP,GDPPerCapita,GrossNationalIncome,GNIPerCapita,InflationRate,EmploymentPopulationRatio
-
-# import plotly.express as px
-
-# fig = px.choropleth(df,
-#                     locations='CountryName', locationmode='country names',
-#                     color = 'SuicideCount',hover_name="CountryName",
-#                     animation_frame="Year",
-#                     color_continuous_scale='Viridis_r')
-# fig.update_layout(margin={'r':0,'t':0,'l':0,'b':0}, coloraxis_colorbar=dict(
-#     title = 'Suicide Count',
-#     ticks = 'outside',
-#     tickvals = [5000,10000,15000,20000,30000, 40000, 50000],
-#     dtick = 12))              
-# st.plotly_chart(fig)
-
-
 st.markdown("## Heatmap de correlation du suicide")
 st.write("""
          Coefficient proche de 1 : Il indique une corrélation positive forte, ce qui signifie que les variables évoluent généralement dans la même direction. Par exemple, si une variable augmente, l'autre a tendance à augmenter également.
